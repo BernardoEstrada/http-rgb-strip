@@ -1,4 +1,5 @@
-var Color = require('color');
+//const ws281x = require('rpi-ws281x-v2');
+const Color = require('color');
 const express = require('express');
 const app = express();
 app.listen(8000, () => console.log("Listening at 8000"));
@@ -94,30 +95,13 @@ app.get('/rainbow/:val', (request, response) => {
   response.status(200).send(strip.rainbow.toString());
 });
 
+function loop(){
+  console.log(strip);
+};
 
-/*
-"accessories": [
-    {
-        "accessory": "HTTP-RGB",
-        "name": "RGB Led Strip",
-        "service": "Light",
+function run(){
+  // Loop every 100 ms
+  setInterval(function(){loop()}, 100);
+};
 
-        "switch": {
-            "status": "http://localhost/api/v1/status",
-            "powerOn": "http://localhost/api/v1/on",
-            "powerOff": "http://localhost/api/v1/off"
-        },
-
-        "brightness": {
-            "status": "http://localhost/api/v1/brightness",
-            "url": "http://localhost/api/v1/brightness/%s"
-        },
-
-        "color": {
-            "status": "http://localhost/api/v1/set",
-            "url": "http://localhost/api/v1/set/%s",
-            "brightness": true
-        }
-    }
-]
-*/
+run();
