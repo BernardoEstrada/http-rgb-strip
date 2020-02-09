@@ -11,9 +11,7 @@ const readline = require('readline').createInterface({
 var red = 255, green = 255, blue = 255, dr=5, dg=5, db=5;
 var color;
 
-ws281x.configure({leds:1, gpio:12});
-
-console.log(ws281x);
+ws281x.configure({leds:150, gpio:12});
    
 
 function loop() {
@@ -33,14 +31,10 @@ function loop() {
       db*=-1;
     }
     blue+=db;
-    
+    */
     var color = (red << 16) | (green << 8)| blue;
     console.log('0x'+color.toString(16));
-*/
-readline.question(`What's your name?`, (c) => {
-  color=c;
-  readline.close()
-})
+
     for (var i = 0; i < ws281x.leds; i++){
       pixels[i] = '0x'+color;
     }
