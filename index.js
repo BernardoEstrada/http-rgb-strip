@@ -34,6 +34,7 @@ app.post('/status', (request, response) => {
 });
 
 app.post('/brightness', (request, response) => {
+  console.log(request);
   if(!isEmptyObject(request.query)){
     if(isNaN(request.query.brightness) || request.query.brightness>100 || request.query.brightness<0){
       response.status(400).send();
@@ -47,7 +48,7 @@ app.post('/brightness', (request, response) => {
 });
 
 app.post('/set', (request, response) => {
-
+  console.log(request);
   if(!isEmptyObject(request.query)){
     if(isNaN('0x' + request.query.color) || parseInt(request.query.color, 16)>parseInt('0xFFFFFF', 16)){
       response.status(400).send();
