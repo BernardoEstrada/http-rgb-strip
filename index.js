@@ -1,4 +1,7 @@
-//const ws281x = require('rpi-ws281x-v2');
+const ws281x = require('rpi-ws281x-v2');
+ws281x.configure({leds:150, gpio:12, strip:"grb", brightness:255});
+
+
 const Color = require('color');
 const express = require('express');
 const app = express();
@@ -8,7 +11,7 @@ app.use(express.json());
 let strip = {
   power: 0,
   brightness: 0,
-  color: "000000",
+  color: Color("#000000"),
   cycle: 0,
   breathing: 0,
   rainbow: 0
@@ -24,6 +27,7 @@ app.get('/q/:val', (request, response) => {
   } else if(request.params.val == "off"){
     strip.power = 0;
   }
+	run();
   response.status(200).send(strip.power.toString());
 });
 
@@ -33,15 +37,16 @@ app.get('/brightness/:bri', (request, response) => {
     if(isNaN(request.params.bri) || request.params.bri>100 || request.params.bri<0){
       response.status(400).send();
     } else{
-      strip.brightness = parseInt(request.params.bri);
-      response.status(200).send(strip.brightness.toString());
+      strip.color = Color.hsv(strip.color.hsv().array()[0],strip.color.hsv().array()[1],parseInt(request.params.bri));
+	run();
+      response.status(200).send(strip.color.hsv().array()[2].toString());
     }
   } else{
-    response.status(200).send(strip.brightness.toString());
+    response.status(200).send(strip.color.hsv().array()[2].toString());
   }
 });
 app.get('/brightness', (request, response) => {
-  response.status(200).send(strip.brightness.toString());
+  response.status(200).send(strip.color.hsv().array()[2].toString());
 });
 
 app.get('/set/:col', (request, response) => {
@@ -49,16 +54,18 @@ app.get('/set/:col', (request, response) => {
     if(isNaN('0x' + request.params.col) || parseInt(request.params.col, 16)>parseInt('0xFFFFFF', 16)){
       response.status(400).send();
     } else{
-      strip.color = request.params.col;
-      strip.brightness = Color('#' + request.params.col).hsv().array()[2];
-      response.status(200).send(strip.color);
+	strip.color = Color.hsv(Color('#' + request.params.col).hsv().array()[0],Color('#' + request.params.col).hsv().array()[1],strip.color.hsv().array()[2]);
+      //strip.color = Color('#' + request.params.col);
+      //strip.brightness = Color('#' + request.params.col).hsv().array()[2];
+	run();
+      response.status(200).send(strip.color.hex().replace('#',''));
     }
   } else{
-    response.status(200).send(strip.color);
+    response.status(200).send(strip.color.hex().replace('#',''));
   }
 });
 app.get('/set', (request, response) => {
-  response.status(200).send(strip.color);
+  response.status(200).send(strip.color.hex().replace('#', ''));
 });
 
 
@@ -95,13 +102,23 @@ app.get('/rainbow/:val', (request, response) => {
   response.status(200).send(strip.rainbow.toString());
 });
 
-function loop(){
-  console.log(strip);
-};
 
-function run(){
-  // Loop every 100 ms
-  setInterval(function(){loop()}, 100);
-};
+function loop() {
+	var pixels = new Uint32Array(ws281x.leds);
+	//strip.color = Color.hsv();
+	console.log(strip.color.hex().replace('#','0x'));
+    for (var i = 0; i < ws281x.leds; i++){
+      pixels[i] = strip.color.hex().replace('#','0x');
+    }
+
+    // Render to strip
+    ws281x.render(pixels);
+  }
+
+function run() 
+{  // Loop every 100 ms
+  //setInterval(function(){loop()}, 100);
+	loop();
+}
 
 run();
