@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/BernardoEstrada/http-rgb-strip#readme",
   "dependencies": {
+    "color": "^3.1.2",
     "express": "^4.17.1"
   }
 }
