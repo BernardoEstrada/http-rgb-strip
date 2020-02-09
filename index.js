@@ -198,7 +198,7 @@ function rainbowLoop(){
   let pixels = new Uint32Array(ws281x.leds);
 
   for (let i = 0; i < ws281x.leds; i++){
-    pixels[i] = Color.hsv(0, 100, strip.color.hsv().array()[2]).rotate((i+ledIndex)*360/ws281x.leds).hex().replace('#','0x');
+    pixels[i] = strip.color.rotate((i+ledIndex)*360/ws281x.leds).hex().replace('#','0x');
   }
   // Render to strip
   ws281x.render(pixels);
