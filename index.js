@@ -171,7 +171,7 @@ function cycleLoop(){
   for(i=0; i<=15; i++){
     pixels[(ledIndex+i)%ws281x.leds] = strip.color.darken(i/15).hex().replace('#','0x');
   }
-  i++
+  i++;
   for (; i>=0; i--){
       pixels[(ledIndex+31-i)%ws281x.leds] = strip.color.darken(i/15).hex().replace('#','0x')
   }
