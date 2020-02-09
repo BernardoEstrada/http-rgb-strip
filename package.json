@@ -1,0 +1,25 @@
+{
+  "name": "http-rgb-strip",
+  "version": "1.0.0",
+  "description": "WS2812B RBG Strip controller via https",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BernardoEstrada/http-rgb-strip.git"
+  },
+  "keywords": [
+    "rgb"
+  ],
+  "author": "Bernardo Estrada",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BernardoEstrada/http-rgb-strip/issues"
+  },
+  "homepage": "https://github.com/BernardoEstrada/http-rgb-strip#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
