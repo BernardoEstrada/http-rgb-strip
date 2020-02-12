@@ -72,7 +72,8 @@ app.get('/set', (request, response) => {
 
 
 app.get('/cycle/:val', (request, response) => {
-  if(request.params.val == "on" && strip.power==1){
+  if(request.params.val == "on"){
+    strip.power = 1;
     strip.cycle = 1;
     strip.breathing = 0;
     strip.rainbow = 0;
@@ -84,7 +85,8 @@ app.get('/cycle/:val', (request, response) => {
 });
 
 app.get('/breathing/:val', (request, response) => {
-  if(request.params.val == "on" && strip.power==1){
+  if(request.params.val == "on"){
+    strip.power = 1;
     strip.cycle = 0;
     strip.breathing = 1;
     strip.rainbow = 0;
@@ -96,7 +98,8 @@ app.get('/breathing/:val', (request, response) => {
 });
 
 app.get('/rainbow/:val', (request, response) => {
-  if(request.params.val == "on" && strip.power==1){
+  if(request.params.val == "on"){
+    strip.power = 1;
     strip.cycle = 0;
     strip.breathing = 0;
     strip.rainbow = 1;
